@@ -873,6 +873,8 @@ public:
         return nullptr;
     }
 
+    // mod_playerbots: Bots suchen Reiseziele ueber alle Teleporter
+    [[nodiscard]] AreaTriggerTeleportContainer const& GetAllAreaTriggerTeleports() const { return _areaTriggerTeleportStore; }
     [[nodiscard]] AreaTriggerTeleport const* GetAreaTriggerTeleport(uint32 trigger) const
     {
         AreaTriggerTeleportContainer::const_iterator itr = _areaTriggerTeleportStore.find(trigger);

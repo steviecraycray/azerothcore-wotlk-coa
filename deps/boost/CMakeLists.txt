@@ -32,7 +32,10 @@ else()
 endif()
 
 # Boost.System is header-only since 1.69; do not require it explicitly.
-find_package(Boost ${BOOST_REQUIRED_VERSION} REQUIRED COMPONENTS filesystem program_options iostreams regex)
+# mod_playerbots: Boost.Thread wird vom Modul benutzt. Unter MSVC verlangt Boost die
+# Bibliothek per #pragma comment(lib, ...) automatisch - ohne diese Komponente sucht
+# CMake sie nie und der Linker findet sie nicht.
+find_package(Boost ${BOOST_REQUIRED_VERSION} REQUIRED COMPONENTS filesystem program_options iostreams regex thread)
 
 if(NOT Boost_FOUND)
   if(NOT DEFINED ENV{Boost_ROOT} AND NOT DEFINED Boost_DIR AND NOT DEFINED BOOST_ROOT AND NOT DEFINED BOOSTROOT)

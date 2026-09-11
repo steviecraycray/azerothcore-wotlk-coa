@@ -37,6 +37,17 @@ void ScriptMgr::OnSocketOpen(std::shared_ptr<WorldSocket> const& socket)
     CALL_ENABLED_HOOKS(ServerScript, SERVERHOOK_ON_SOCKET_OPEN, script->OnSocketOpen(socket));
 }
 
+// mod_playerbots: Bots beobachten eingehende Pakete ihrer Sitzung. Die Kopie schuetzt
+// den Lesezeiger des Originalpakets vor Skripten, die daraus lesen.
+void ScriptMgr::OnPacketReceived(WorldSession* session, WorldPacket const& packet)
+{
+    WorldPacket copy(packet);
+    ExecuteScript<ServerScript>([&](ServerScript* script)
+    {
+        script->OnPacketReceived(session, copy);
+    });
+}
+
 void ScriptMgr::OnSocketClose(std::shared_ptr<WorldSocket> const& socket)
 {
     ASSERT(socket);

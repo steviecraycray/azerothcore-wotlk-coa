@@ -1811,6 +1811,7 @@ private:
     uint32 GetObjectThroughNode(BG_AV_Nodes node);
     bool IsTower(BG_AV_Nodes node) { return m_Nodes[node].Tower; }
 
+
     uint8 GetAttackString(BG_AV_Nodes node, TeamId teamId);
     uint8 GetDefendString(BG_AV_Nodes node, TeamId teamId);
     uint8 GetMineString(uint8 mine, TeamId teamId);
@@ -1849,6 +1850,14 @@ private:
     float _avReputationRate;
 
     bool m_IsInformedNearVictory[2] {};
+
+public:
+    // mod_playerbots: Bots lesen den Schlachtfeldzustand ueber diese Zugriffe.
+    // Am Klassenende, weil die Felder privat sind und weiter oben noch nicht bekannt waeren.
+    [[nodiscard]] BG_AV_NodeInfo const& GetAVNodeInfo(uint32 node) const { return m_Nodes[node]; }
+    [[nodiscard]] bool IsCaptainAlive(uint8 index) const { return m_CaptainAlive[index]; }
+    [[nodiscard]] TeamId GetMineOwner(uint8 index) const { return m_Mine_Owner[index]; }
+
 };
 
 #endif

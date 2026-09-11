@@ -301,5 +301,12 @@ private:
     uint8 _controlledPoints[PVP_TEAMS_COUNT] {};
     bool _teamScores500Disadvantage[PVP_TEAMS_COUNT] {};
     uint32 _configurableMaxTeamScore;
+
+public:
+    // mod_playerbots: Bots lesen den Schlachtfeldzustand ueber diesen Zugriff.
+    // Steht am Klassenende, weil CapturePointInfo eine private, verschachtelte
+    // Struktur ist und weiter oben noch nicht bekannt waere.
+    [[nodiscard]] CapturePointInfo const& GetCapturePointInfo(uint32 node) const { return _capturePointInfo[node]; }
+
 };
 #endif

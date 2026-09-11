@@ -428,5 +428,12 @@ private:
     uint8 _flagState;
     uint32 _flagCapturedObject;
     uint32 _configurableMaxTeamScore;
+
+public:
+    // mod_playerbots: Bots lesen den Schlachtfeldzustand ueber diesen Zugriff.
+    // Steht am Klassenende, weil CapturePointInfo eine private, verschachtelte
+    // Struktur ist und weiter oben noch nicht bekannt waere.
+    [[nodiscard]] CapturePointInfo const& GetCapturePointInfo(uint32 node) const { return _capturePointInfo[node]; }
+
 };
 #endif

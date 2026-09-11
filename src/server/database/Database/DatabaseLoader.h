@@ -49,8 +49,19 @@ public:
         DATABASE_CHARACTER  = 2,
         DATABASE_WORLD      = 4,
 
+#ifdef MOD_PLAYERBOTS
+        DATABASE_PLAYERBOTS = 8,
+        DATABASE_MASK_ALL   = DATABASE_LOGIN | DATABASE_CHARACTER | DATABASE_WORLD | DATABASE_PLAYERBOTS
+#else
         DATABASE_MASK_ALL   = DATABASE_LOGIN | DATABASE_CHARACTER | DATABASE_WORLD
+#endif
     };
+
+    // mod_playerbots: eigene Datenbank meldet ihre Update-Flags nach
+    void SetUpdateFlags(uint32 newUpdateFlags)
+    {
+        _updateFlags |= newUpdateFlags;
+    }
 
     [[nodiscard]] uint32 GetUpdateFlags() const
     {
@@ -73,7 +84,9 @@ private:
     std::string const _logger;
     std::string_view _modulesList;
     bool const _autoSetup;
-    uint32 const _updateFlags;
+    // mod_playerbots: nicht mehr const - SetUpdateFlags() traegt die Flags der
+    // Playerbots-Datenbank nach, sobald deren Modul sie kennt.
+    uint32 _updateFlags;
 
     std::queue<Predicate> _open, _populate, _update, _prepare;
     std::stack<Closer> _close;
