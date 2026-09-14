@@ -527,8 +527,18 @@ struct ResourceCostRule
 // Rules marked None still receive a local power check, but their public DBC
 // effect already performs the spend. Fixed and All replace private-server
 // consumption that is absent from the public DBC.
-inline constexpr std::array<ResourceCostRule, 55> ResourceCostRules =
+inline constexpr std::array<ResourceCostRule, 57> ResourceCostRules =
 {{
+    // Call Lightning verlangt ueber Spell.dbc Feld 24 (CasterAuraSpell) die
+    // Schwellenaura 707050 "At Least 50 Static", hatte hier aber keine
+    // Kostenregel - und sein Datensatz nennt 803102 an keiner Stelle. Der
+    // Static sank dadurch nie: einmal ueber 50, und die Faehigkeit war
+    // beliebig oft wirkbar. Beobachtet am 14.09.2026 an einem Bot, der nach
+    // dem ersten Mal nichts anderes mehr wirkte; betrifft Spieler genauso.
+    // Menge 50 steht in Astras RESSOURCEN.md und im Zaubertext.
+    // Raenge aus spell_ranks: 500040 ist Rang 1, 501388 bis 501399 folgen.
+    {16, 500040, 500040, 803102, 50, ResourceConsumption::Fixed},
+    {16, 501388, 501399, 803102, 50, ResourceConsumption::Fixed},
     {14, 801904, 801904, 800058, 2, ResourceConsumption::Fixed,
         705137, 30},
     {14, 803470, 803475, 800058, 2, ResourceConsumption::Fixed,
