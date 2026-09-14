@@ -75,6 +75,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cctype>
 #include <cstring>
 #include <type_traits>
 #include <deque>
@@ -4441,6 +4442,49 @@ bool SwitchSpecialization(Player* player, std::uint32_t specializationId)
 std::uint32_t GetActiveSpecialization(Player const* player)
 {
     return AscensionClassService::Instance().GetActiveSpecialization(player);
+}
+
+std::int32_t GetResourcePercent(Player const* player,
+                                std::string const& resourceName)
+{
+    if (!player || resourceName.empty())
+        return -1;
+
+    auto gleich = [](char const* a, std::string const& b)
+    {
+        std::size_t i = 0;
+        for (; a[i] && i < b.size(); ++i)
+            if (std::tolower(static_cast<unsigned char>(a[i])) !=
+                std::tolower(static_cast<unsigned char>(b[i])))
+                return false;
+        return !a[i] && i == b.size();
+    };
+
+    for (AscensionCompatData::ResourceDisplay const& display :
+         AscensionCompatData::ResourceDisplays)
+    {
+        if (display.ClassId != player->getClass() ||
+            !gleich(display.Name, resourceName))
+            continue;
+
+        // Ein Maximum von 0 heisst in der Tabelle: aus Spell.dbc ableiten.
+        std::uint32_t maximum = display.DisplayMaximum;
+        if (!maximum)
+            if (SpellInfo const* info = sSpellMgr->GetSpellInfo(display.SpellId))
+                maximum = info->StackAmount;
+        if (!maximum)
+            return -1;
+
+        std::uint32_t stapel = 0;
+        if (Aura const* aura = player->GetAura(display.SpellId))
+            stapel = aura->GetStackAmount();
+        if (stapel > maximum)
+            stapel = maximum;
+
+        return static_cast<std::int32_t>(stapel * 100 / maximum);
+    }
+
+    return -1;
 }
 }
 

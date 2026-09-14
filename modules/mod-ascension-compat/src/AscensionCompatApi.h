@@ -15,6 +15,7 @@
 #define ASCENSION_COMPAT_API_H
 
 #include <cstdint>
+#include <string>
 
 class Player;
 
@@ -27,6 +28,18 @@ namespace AscensionCompatApi
 
     // 0, wenn keine gesetzt ist.
     std::uint32_t GetActiveSpecialization(Player const* player);
+
+    // Stand einer klasseneigenen Ressource in Prozent ihres Maximums, 0 bis
+    // 100. -1, wenn die Klasse keine Ressource dieses Namens fuehrt oder kein
+    // Maximum bekannt ist.
+    //
+    // WARUM PROZENT: die Maxima gehen weit auseinander - Static 100, Brood
+    // Mark 5, Reaped Soul 3, Earthshaping 15. Eine Regel wie "wirke Arm of
+    // Thorim erst ab drei Vierteln" laesst sich nur so klassenuebergreifend
+    // schreiben. Die Namen sind die aus der Anzeigetabelle des Moduls
+    // ("Static", "Ember", "Heat", ...), Gross- und Kleinschreibung egal.
+    std::int32_t GetResourcePercent(Player const* player,
+                                    std::string const& resourceName);
 }
 
 #endif
