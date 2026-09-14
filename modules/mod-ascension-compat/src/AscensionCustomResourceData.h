@@ -134,7 +134,7 @@ struct ResourceGainRule
 // These active abilities advertise resource generation in their tooltips, but
 // their public Spell.dbc records contain no effect that performs it. Ranges are
 // rank chains verified against the local Ascension spell dump.
-inline constexpr std::array<ResourceGainRule, 177> ResourceGainRules =
+inline constexpr std::array<ResourceGainRule, 178> ResourceGainRules =
 {{
     // Native helpers already supply Twin Slice, Fel Fireball, and Seeking Flame.
     // Fel Torpedo and the current Bane variants generate through their class scripts.
@@ -326,6 +326,8 @@ inline constexpr std::array<ResourceGainRule, 177> ResourceGainRules =
     {25, 806893, 806897, 500706, 10, ResourceMutation::AuraStacks},
     {25, 807969, 807969, 500706, 10, ResourceMutation::AuraStacks},
     {25, 500720, 500720, 500706, 20, ResourceMutation::AuraStacks},
+    // Horrorbolt: "Generates 10 Insanity" laut Zaubertext, fehlte hier.
+    {25, 502173, 502173, 500706, 10, ResourceMutation::AuraStacks},
     {25, 502114, 502124, 500706, 20, ResourceMutation::AuraStacks},
     {25, 800416, 800416, 500706, 10, ResourceMutation::AuraStacks},
     {25, 502173, 502184, 500706, 10, ResourceMutation::AuraStacks},
@@ -545,7 +547,7 @@ struct ResourceCostRule
 // Rules marked None still receive a local power check, but their public DBC
 // effect already performs the spend. Fixed and All replace private-server
 // consumption that is absent from the public DBC.
-inline constexpr std::array<ResourceCostRule, 57> ResourceCostRules =
+inline constexpr std::array<ResourceCostRule, 67> ResourceCostRules =
 {{
     // Call Lightning verlangt ueber Spell.dbc Feld 24 (CasterAuraSpell) die
     // Schwellenaura 707050 "At Least 50 Static", hatte hier aber keine
@@ -555,6 +557,24 @@ inline constexpr std::array<ResourceCostRule, 57> ResourceCostRules =
     // dem ersten Mal nichts anderes mehr wirkte; betrifft Spieler genauso.
     // Menge 50 steht in Astras RESSOURCEN.md und im Zaubertext.
     // Raenge aus spell_ranks: 500040 ist Rang 1, 501388 bis 501399 folgen.
+    // Cultist. Die Mengen stehen woertlich in den Zaubertexten und weichen
+    // teils von der verlangten Schwelle ab - Entropic Slam verlangt 60 und
+    // zieht 40. Deshalb ausdrueckliche Regeln statt des Rueckfalls.
+    //   Wrath of the Black Empire  "draining 20 Insanity"
+    //   Sanity Tap                 "reducing your Insanity by 20"
+    //   Entropic Slam              "draining 40 Insanity"
+    //   Hammer of Twilight         "draining 40 Insanity"
+    {25, 502166, 502172, 500706, 20, ResourceConsumption::Fixed},
+    {25, 504904, 504904, 500706, 20, ResourceConsumption::Fixed},
+    {25, 800413, 800413, 500706, 20, ResourceConsumption::Fixed},
+    {25, 802575, 802575, 500706, 20, ResourceConsumption::Fixed},
+    {25, 555351, 555354, 500706, 40, ResourceConsumption::Fixed},
+    {25, 572846, 572846, 500706, 40, ResourceConsumption::Fixed},
+    {25, 804152, 804152, 500706, 40, ResourceConsumption::Fixed},
+    {25, 805116, 805116, 500706, 40, ResourceConsumption::Fixed},
+    {25, 806498, 806499, 500706, 40, ResourceConsumption::Fixed},
+    {25, 806829, 806833, 500706, 40, ResourceConsumption::Fixed},
+
     {16, 500040, 500040, 803102, 50, ResourceConsumption::Fixed},
     {16, 501388, 501399, 803102, 50, ResourceConsumption::Fixed},
     {14, 801904, 801904, 800058, 2, ResourceConsumption::Fixed,
