@@ -88,7 +88,7 @@ struct ResourceThresholdRule
 
 // Ascension uses hidden auras to make fixed-cost abilities castable. The
 // private server normally keeps them synchronized with the visible resource.
-inline constexpr std::array<ResourceThresholdRule, 7> ResourceThresholdRules =
+inline constexpr std::array<ResourceThresholdRule, 13> ResourceThresholdRules =
 {{
     {14, 800058, 2, 803468},
     {16, 803102, 10, 706668},
@@ -96,7 +96,25 @@ inline constexpr std::array<ResourceThresholdRule, 7> ResourceThresholdRules =
     {16, 803102, 25, 681126},
     {16, 803102, 40, 573249},
     {16, 803102, 50, 707050},
-    {25, 800431, 2, 520343}
+    {25, 800431, 2, 520343},
+
+    // Diese sechs fehlten. Die Auren heissen im Spiel woertlich nach ihrer
+    // Schwelle ("20 Insanity", "4 Stacks of Lunar Phase"), werden aber
+    // nirgends angelegt - die Faehigkeiten dahinter sind damit fuer niemanden
+    // wirkbar, auch nicht fuer Spieler. Betroffen sind beim Cultist unter
+    // anderem Sanity Tap, Hammer of Twilight, Entropic Slam, Void Embrace und
+    // Dreadnought, beim Starcaller Lunar Eclipse, beim Sun Cleric Dawn.
+    //
+    // Belegt im Spiel am 14.09.2026: ein Cultist auf Stufe 20 hatte Sanity Tap
+    // und Hammer of Twilight im Zauberbuch und wirkte in einem vollen Kampf
+    // keines von beiden, obwohl Blade of the Empire dreimal traf und laut der
+    // Gewinntabelle je 20 Insanity gibt.
+    {25, 500706, 20, 680601},
+    {25, 500706, 40, 680602},
+    {25, 500706, 60, 680603},
+    {25, 500706, 80, 680604},
+    {26, 802985,  4, 704519},
+    {27, 500149, 20, 704396}
 }};
 
 struct ResourceGainRule

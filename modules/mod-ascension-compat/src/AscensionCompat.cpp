@@ -1621,8 +1621,50 @@ public:
         }
 
         ConsumeReaperSouls(player, spellInfo);
+        ConsumeThresholdResource(player, spellInfo);
         SynchronizeThresholdResources(player);
         SendClientState(player, false);
+    }
+
+    // Faellt ein, wenn eine Faehigkeit ueber Spell.dbc Feld 24
+    // (CasterAuraSpell) eine Schwellenaura VERLANGT, in ResourceCostRules aber
+    // keinen Eintrag hat. Ohne das steigt die Ressource einmal ueber die
+    // Schwelle und bleibt dort: die Faehigkeit ist danach beliebig oft
+    // wirkbar, ohne je zu bezahlen.
+    //
+    // Belegt am 14.09.2026 an Call Lightning - ein Bot wirkte nach dem ersten
+    // Mal nichts anderes mehr. Dort ist die Regel inzwischen eingetragen; die
+    // gleiche Luecke steht aber noch bei Aeroblast, Conjure Storm, Torrential
+    // Wrath und dem halben Cultist-Kit.
+    //
+    // ANNAHME, ausdruecklich als solche markiert: der Verbrauch entspricht der
+    // verlangten Schwelle. Belegt ist das an zwei Faellen - Call Lightning
+    // verlangt 50 Static und kostet laut Zaubertext 50, und Wrath of the Black
+    // Empire verlangt 20 Insanity und verbraucht laut Astras Dokument 20. Wo
+    // ein ausdruecklicher Eintrag in ResourceCostRules steht, gewinnt dieser
+    // immer: Discharge etwa verlangt die 20er-Schwelle und steht bewusst auf
+    // ResourceConsumption::None.
+    void ConsumeThresholdResource(Player* player, SpellInfo const* spellInfo) const
+    {
+        if (!player || !spellInfo || !spellInfo->CasterAuraSpell)
+            return;
+
+        for (AscensionCompatData::ResourceCostRule const& rule :
+             AscensionCompatData::ResourceCostRules)
+            if (Matches(player, spellInfo->Id, rule.ClassId, rule.FirstSpellId,
+                    rule.LastSpellId))
+                return;  // ausdrueckliche Regel vorhanden, nichts zu tun
+
+        for (AscensionCompatData::ResourceThresholdRule const& rule :
+             AscensionCompatData::ResourceThresholdRules)
+        {
+            if (rule.ClassId != player->getClass() ||
+                rule.ThresholdSpellId != spellInfo->CasterAuraSpell)
+                continue;
+
+            ModifyAuraStacks(player, rule.ResourceSpellId, -int32(rule.Amount));
+            return;
+        }
     }
 
     void OnSpellHitResult(Spell* spell, Unit* target, uint8 missInfo,
