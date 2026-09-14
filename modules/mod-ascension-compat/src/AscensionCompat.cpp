@@ -4,6 +4,7 @@
  * https://github.com/azerothcore/azerothcore-wotlk/blob/master/LICENSE-AGPL3
  */
 
+#include "AscensionCompatApi.h"
 #include "AscensionFelsworn.h"
 #include "AscensionPyromancer.h"
 #include "AscensionCultist.h"
@@ -4426,6 +4427,21 @@ bool IsAscensionPrimalistWeaponsEligible(Player const* player, bool allowUnconfi
         player->getClass() == CLASS_WILDWALKER && player->GetLevel() >= 20 && player->HasSpell(537218) &&
         (AscensionClassService::Instance().GetActiveSpecialization(player) == 59 ||
             (allowUnconfirmed && !AscensionClassService::Instance().GetActiveSpecialization(player)));
+}
+
+// Schmale Schnittstelle fuer andere Module, siehe AscensionCompatApi.h.
+// Reicht bestehende Aufrufe weiter; aendert kein Verhalten.
+namespace AscensionCompatApi
+{
+bool SwitchSpecialization(Player* player, std::uint32_t specializationId)
+{
+    return AscensionClassService::Instance().SwitchSpecialization(player, specializationId);
+}
+
+std::uint32_t GetActiveSpecialization(Player const* player)
+{
+    return AscensionClassService::Instance().GetActiveSpecialization(player);
+}
 }
 
 void AddAscensionCompatScripts() {
