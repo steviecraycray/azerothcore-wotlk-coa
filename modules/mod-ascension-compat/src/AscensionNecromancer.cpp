@@ -11,6 +11,7 @@
 #include "ScriptMgr.h"
 #include "SpellAuraEffects.h"
 #include "SpellAuras.h"
+#include "SpellInfo.h"
 #include "SpellMgr.h"
 #include "TemporarySummon.h"
 #include <algorithm>
@@ -51,14 +52,33 @@ int32 Amount(uint32 spell, uint8 effect, Unit* caster)
     SpellInfo const* info = sSpellMgr->GetSpellInfo(spell);
     return info ? info->Effects[effect].CalcValue(caster) : 0;
 }
+// Ein Zauber, den das Ziel nicht annehmen darf, verliert beim Vorbereiten sein
+// Zielobjekt. Spell::SelectImplicitTargetObjectTargets findet dann keines mehr
+// und loest die Zusicherung in Spell.cpp:1859 aus - der Server stuerzt ab.
+//
+// Belegt am 15.09.2026: ein Diener des Necromancer schlaegt zu, die Aura
+// Vampiric Aura (560607) laesst Copy() den Zauber 561095 auf den Spieler
+// selbst wirken, und genau dort bricht es. Der Weg steht in
+// AscensionNecromancerEvents.cpp:91.
+//
+// CheckTarget beantwortet dieselbe Frage vorher und ohne Absturz.
+static bool Zielbar(Unit* caster, Unit* target, uint32 spell)
+{
+    SpellInfo const* info = sSpellMgr->GetSpellInfo(spell);
+    return info && caster && target &&
+           info->CheckTarget(caster, target, true) == SPELL_CAST_OK;
+}
+
 void Cast(Unit* caster, Unit* target, uint32 spell)
 {
-    if (caster && target && caster->IsInWorld() && target->IsAlive())
+    if (caster && target && caster->IsInWorld() && target->IsAlive() &&
+        Zielbar(caster, target, spell))
         caster->CastSpell(target, spell, true);
 }
 void Copy(Unit* caster, Unit* target, uint32 spell, uint32 amount, uint8 effect)
 {
-    if (caster && target && target->IsAlive() && amount)
+    if (caster && target && target->IsAlive() && amount &&
+        Zielbar(caster, target, spell))
         caster->CastCustomSpell(spell, SpellValueMod(SPELLVALUE_BASE_POINT0 + effect),
                                 int32(std::min(amount, uint32(INT32_MAX))), target, true);
 }
