@@ -71,13 +71,22 @@ static bool Zielbar(Unit* caster, Unit* target, uint32 spell)
 
 void Cast(Unit* caster, Unit* target, uint32 spell)
 {
-    if (caster && target && caster->IsInWorld() && target->IsAlive() &&
-        Zielbar(caster, target, spell))
+    if (caster && target && caster->IsInWorld() && target->IsInWorld() &&
+        target->IsAlive() && Zielbar(caster, target, spell))
         caster->CastSpell(target, spell, true);
 }
 void Copy(Unit* caster, Unit* target, uint32 spell, uint32 amount, uint8 effect)
 {
-    if (caster && target && target->IsAlive() && amount &&
+    // IsInWorld fehlte hier, waehrend Cast() direkt darueber es prueft. Genau
+    // diese Asymmetrie ist der Absturz: SpellCastTargets::SetUnitTarget merkt
+    // sich die GUID, und Spell::prepare loest sie ueber Update() wieder auf.
+    // Ist das Ziel nicht mehr in der Welt, kommt dabei nichts heraus, und
+    // SelectImplicitTargetObjectTargets faellt ueber das fehlende Zielobjekt.
+    //
+    // Der Diener schlaegt noch zu, waehrend sein Besitzer die Welt schon
+    // verlassen hat - beim Stufenaufstieg auf 60 reproduzierbar.
+    if (caster && target && caster->IsInWorld() && target->IsInWorld() &&
+        target->IsAlive() && amount &&
         Zielbar(caster, target, spell))
         caster->CastCustomSpell(spell, SpellValueMod(SPELLVALUE_BASE_POINT0 + effect),
                                 int32(std::min(amount, uint32(INT32_MAX))), target, true);

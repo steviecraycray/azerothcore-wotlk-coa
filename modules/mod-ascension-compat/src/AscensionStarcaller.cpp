@@ -72,12 +72,25 @@ int32 Amount(uint32 id, uint8 slot, Unit* caster)
 }
 void Cast(Unit* caster, Unit* target, uint32 id)
 {
-    if (caster && target && target->IsAlive() && caster->IsInWorld())
+    if (caster && target && caster->IsInWorld() && target->IsInWorld() &&
+        target->IsAlive())
         caster->CastSpell(target, id, true);
 }
+// Cast() prueft caster->IsInWorld(), Copy() tat es nicht - dieselbe
+// Asymmetrie steht in fuenf Klassendateien. Sie ist ein Serverabsturz:
+// SpellCastTargets::SetUnitTarget merkt sich nur die GUID, und
+// Spell::prepare loest sie ueber Update() wieder auf. Ist einer der beiden
+// nicht mehr in der Welt, kommt dabei nichts heraus, und
+// Spell::SelectImplicitTargetObjectTargets faellt ueber das fehlende
+// Zielobjekt (Zusicherung in Spell.cpp:1859).
+//
+// Belegt am 15.09.2026 am Necromancer: ein Diener schlaegt noch zu, waehrend
+// sein Besitzer die Welt schon verlassen hat. Beim Stufenaufstieg auf 60
+// reproduzierbar.
 void Copy(Unit* caster, Unit* target, uint32 id, uint32 amount)
 {
-    if (caster && target && target->IsAlive() && amount)
+    if (caster && target && caster->IsInWorld() && target->IsInWorld() &&
+        target->IsAlive() && amount)
         caster->CastCustomSpell(id, SPELLVALUE_BASE_POINT0, int32(std::min<uint32>(amount, INT32_MAX)), target, true);
 }
 void Mana(Player* player, uint32 amount, uint32 spell)
