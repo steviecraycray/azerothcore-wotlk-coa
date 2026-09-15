@@ -31,6 +31,19 @@
 #include "World.h"
 #include "WorldPacket.h"
 #include "WorldSession.h"
+// boost/property_tree/json_parser.hpp greift auf boost::bind und
+// boost::placeholders::_1 zu, bindet die Koepfe dafuer aber nicht selbst
+// ein. Ohne die naechsten beiden Zeilen bricht der Uebersetzer mit
+// "placeholders ist kein Member von boost" ab - mit MSVC und Boost
+// 1.81.0 am 15.09.2026 aufgetreten.
+//
+// Zwei Wege, die NICHT helfen und schon geprueft sind:
+//   BOOST_BIND_GLOBAL_PLACEHOLDERS  unterdrueckt nur eine
+//     Verfallswarnung aelterer Fassungen und legt nichts an
+//   boost/bind/bind.hpp             enthaelt den Namensraum nicht,
+//     er steht in boost/bind/placeholders.hpp
+#include <boost/bind/bind.hpp>
+#include <boost/bind/placeholders.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <algorithm>
 #include <chrono>
