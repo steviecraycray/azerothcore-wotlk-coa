@@ -65,8 +65,30 @@ int32 Amount(uint32 spell, uint8 effect, Unit* caster)
 static bool Zielbar(Unit* caster, Unit* target, uint32 spell)
 {
     SpellInfo const* info = sSpellMgr->GetSpellInfo(spell);
-    return info && caster && target &&
-           info->CheckTarget(caster, target, true) == SPELL_CAST_OK;
+    if (!info || !caster || !target)
+        return false;
+
+    // WER KEINEN MEISTER HAT, KANN IHN NICHT HEILEN.
+    //
+    // Vampiric Aura (561095) ist SPELL_EFFECT_HEAL auf TARGET_UNIT_MASTER
+    // (Spell.dbc: Effect 10, EffectImplicitTargetA 27). Gedacht ist: der
+    // Diener schlaegt zu, sein Besitzer wird geheilt. Gewirkt wird der Zauber
+    // in AscensionNecromancerEvents.cpp:90 aber vom SPIELER selbst, und ein
+    // Spieler hat keinen Meister. Die Zielauswahl findet dann nichts und
+    // reisst den Server mit - Zusicherung in Spell.cpp:1859, am 15.09.2026
+    // dreimal reproduziert.
+    //
+    // Hier wird der Cast nur unterbunden. Ob der Zauber stattdessen vom
+    // Diener ausgehen soll, ist eine Entwurfsfrage fuer den Modulautor: mit
+    // dieser Sperre heilt Vampiric Aura niemanden mehr, vorher stuerzte der
+    // Server ab.
+    for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
+        if (info->Effects[i].IsEffect() &&
+            info->Effects[i].TargetA.GetTarget() == TARGET_UNIT_MASTER &&
+            !caster->GetCharmerOrOwner())
+            return false;
+
+    return info->CheckTarget(caster, target, true) == SPELL_CAST_OK;
 }
 
 void Cast(Unit* caster, Unit* target, uint32 spell)
