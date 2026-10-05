@@ -107,7 +107,8 @@ Where main already gave a boss Ascension abilities (Deadmines bosses, Jed Runewa
 kit stays authoritative for the abilities it covers and those rows are switched off the same way; the rest of
 main's logic stays (Eject Sneed, Cookie's cauldron, Goraluk's self-enchants on Normal). Edwin VanCleef's Buster
 Call markers are switched off in favour of the kit's cannonball volleys at 75/50/25 %, which play the same role.
-Buzzing Saw Blade (180237) keeps main's C++ AI.
+Buzzing Saw Blade (180237) keeps main's C++ AI. General Drakkisath, Pyroguard Emberseer, The Beast and Mr. Smite already cast their
+Ascension abilities in their C++ scripts on every difficulty, so `coa_dungeon_boss_kit` has no rows for them.
 Health triggers in the export are kept, cast timers come from the supplied combat logs where available and
 otherwise from the closest comparable boss. Event bosses and several summons were checked in game by the
 user on all 19 maps; some event bosses remain untested.
