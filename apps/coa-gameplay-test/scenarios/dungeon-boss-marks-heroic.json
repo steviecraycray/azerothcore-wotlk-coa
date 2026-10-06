@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "name": "Heroic dungeon bosses give a Mark of Triumph each, the final boss one more",
+  "contract": "On Heroic The Stockade, killing Targorr the Dread gives the player one Mark of Triumph (1414502). Killing Bazil Thredd, who ends the dungeon, gives one for the boss and one for the completion.",
+  "timeout_ms": 60000,
+  "location": { "map": 0, "x": -8914.0, "y": -133.0, "z": 80.6 },
+  "players": [
+    { "id": "hero", "race": 1, "class": 1, "level": 60 }
+  ],
+  "steps": [
+    { "action": "wait", "ms": 1000 },
+    { "action": "set_health", "actor": "hero", "value": 5000000, "maximum": 5000000 },
+    { "action": "ascension_dungeon_difficulty_packet", "actor": "hero", "value": 1 },
+    { "action": "wait", "ms": 250 },
+    { "action": "teleport", "actor": "hero", "map": 34, "x": 54.23, "y": 0.28, "z": -18.34 },
+    { "action": "wait", "ms": 1500 },
+    { "action": "summon", "actor": "hero", "entry": 1696, "as": "targorr", "distance": 4 },
+    { "action": "wait", "ms": 300 },
+    { "action": "attack_nearby", "actor": "hero", "entry": 1696, "kill": true },
+    { "action": "assert", "label": "Targorr: one Mark of Triumph", "actor": "hero", "metric": "item_count", "item": 1414502, "equals": 1, "within_ms": 2000 },
+    { "action": "summon", "actor": "hero", "entry": 1716, "as": "bazil", "distance": 4 },
+    { "action": "wait", "ms": 300 },
+    { "action": "attack_nearby", "actor": "hero", "entry": 1716, "kill": true },
+    { "action": "assert", "label": "Bazil ends the dungeon: one Mark for the boss and one for the completion", "actor": "hero", "metric": "item_count", "item": 1414502, "equals": 3, "within_ms": 2000 }
+  ]
+}
