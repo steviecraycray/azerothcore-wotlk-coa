@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "name": "Blackrock Depths Mythic: Ring of Law arena bosses and Borer Beetles have Mythic health",
+  "contract": "On Mythic Blackrock Depths, Hedrum the Creeper (one of the six Ring of Law arena bosses) has the Blackrock Depths boss health 490200, and a Borer Beetle has ten times its level 60 health (30520).",
+  "timeout_ms": 60000,
+  "location": { "map": 0, "x": -8914.0, "y": -133.0, "z": 80.6 },
+  "players": [
+    { "id": "hero", "race": 1, "class": 1, "level": 60 }
+  ],
+  "steps": [
+    { "action": "wait", "ms": 1000 },
+    { "action": "ascension_dungeon_difficulty_packet", "actor": "hero", "value": 2 },
+    { "action": "wait", "ms": 250 },
+    { "action": "teleport", "actor": "hero", "map": 230, "x": 458.32, "y": 26.52, "z": -70.67 },
+    { "action": "wait", "ms": 1500 },
+    { "action": "summon", "actor": "hero", "entry": 9032, "as": "hedrum", "distance": 30 },
+    { "action": "summon", "actor": "hero", "entry": 8932, "as": "beetle", "distance": 35 },
+    { "action": "wait", "ms": 300 },
+    { "action": "assert", "label": "Hedrum: Blackrock Depths boss health", "actor": "hedrum", "metric": "max_health", "equals": 490200 },
+    { "action": "assert", "label": "Borer Beetle: ten times its health", "actor": "beetle", "metric": "max_health", "equals": 30520 }
+  ]
+}
