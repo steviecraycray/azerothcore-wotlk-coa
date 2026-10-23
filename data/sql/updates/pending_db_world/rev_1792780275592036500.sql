@@ -1,4 +1,4 @@
--- Road to De Other Side (map 937): Adlazin's quests, the entrance and exit in the Sinister Lair, and Normal health.
+-- Road to De Other Side (map 937): Adlazin's quests, the entrance and exit in the Sinister Lair, and health.
 
 -- Adlazin gives and takes both quests.
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 3, `gossip_menu_id` = 162933 WHERE `entry` = 162933;
@@ -33,30 +33,80 @@ DELETE FROM `areatrigger_teleport` WHERE `ID` = 8005;
 INSERT INTO `areatrigger_teleport` (`ID`, `Name`, `target_map`, `target_position_x`, `target_position_y`, `target_position_z`, `target_orientation`) VALUES
 (8005, 'Road to De Other Side - Sinister Lair', 1, -198.149, -4182.969, 56.760, 6.27215);
 
--- Road to De Other Side (map 937): Normal health at level 60. The classic dungeons' Normal bosses sit at about
--- 230-330k there with the dungeon multiplier of 2.5 (CoA.CreatureScaling). Spawned creatures take that multiplier,
--- summons (the Chimeric Embryo, its spiders) do not. Vol'zeen keeps the Normal log's ratio to the bosses (about 0.7).
-UPDATE `creature_template` SET `HealthModifier` = 39.3 WHERE `entry` = 162711;  -- Muzah, about 300k
-UPDATE `creature_template` SET `HealthModifier` = 47.5 WHERE `entry` = 162715;  -- Drak'math (caster), about 290k
-UPDATE `creature_template` SET `HealthModifier` = 101.6 WHERE `entry` = 162716; -- Chimeric Embryo (summoned), about 310k
-UPDATE `creature_template` SET `HealthModifier` = 27.5 WHERE `entry` = 162988;  -- Vol'zeen, about 210k
+-- Road to De Other Side (map 937): health. Normal at level 60 from the 2026-08-24 Normal log, a level-60 run
+-- (Muzah's 35k at level 25 and 88.6k at 50 carried to 60 give the same 120k). Spawned creatures take the
+-- dungeon multiplier of 2.5 (CoA.CreatureScaling), summons do not. Mythic is set to half the 2026-08-05 Mythic
+-- log for now and gets tuned on feedback; Heroic is Mythic / 1.3.
 
--- Trash: the Mythic log's ratios to an Interstitial Wanderer, with the Wanderer at the Normal log's
--- 1/6.9 of Muzah (about 44k at level 60). Spawned creatures take the dungeon multiplier of 2.5, summons do not.
-UPDATE `creature_template` SET `HealthModifier` = 6.36 WHERE `entry` = 162743; -- Spider, about 19k
-UPDATE `creature_template` SET `HealthModifier` = 5.73 WHERE `entry` = 162765; -- Interstitial Wanderer, about 44k
-UPDATE `creature_template` SET `HealthModifier` = 5.73 WHERE `entry` = 162769; -- Deathweaver Matriarch, about 44k
-UPDATE `creature_template` SET `HealthModifier` = 2.15 WHERE `entry` = 162770; -- Spider of the Other Side, about 16k
-UPDATE `creature_template` SET `HealthModifier` = 16.32 WHERE `entry` = 162773; -- Gutdevourer, about 125k
-UPDATE `creature_template` SET `HealthModifier` = 5.73 WHERE `entry` = 162775; -- Gutdevourer, about 44k
-UPDATE `creature_template` SET `HealthModifier` = 5.73 WHERE `entry` = 162776; -- Interstitial Wanderer, about 44k
-UPDATE `creature_template` SET `HealthModifier` = 20.40 WHERE `entry` = 162780; -- Risen Cultist, about 125k
-UPDATE `creature_template` SET `HealthModifier` = 7.16 WHERE `entry` = 162782; -- Hisser of the Other Side, about 44k
-UPDATE `creature_template` SET `HealthModifier` = 7.16 WHERE `entry` = 162783; -- Interstitial Wanderer, about 44k
-UPDATE `creature_template` SET `HealthModifier` = 2.15 WHERE `entry` = 162784; -- Violent Swarm, about 16k
-UPDATE `creature_template` SET `HealthModifier` = 9.67 WHERE `entry` = 162785; -- Watcher of the Path, about 59k
-UPDATE `creature_template` SET `HealthModifier` = 2.15 WHERE `entry` = 162979; -- Lifedrinker, about 16k
-UPDATE `creature_template` SET `HealthModifier` = 2.15 WHERE `entry` = 162980; -- Lifedrinker, about 16k
-UPDATE `creature_template` SET `HealthModifier` = 1.43 WHERE `entry` = 162981; -- Lifedrinker, about 11k
-UPDATE `creature_template` SET `HealthModifier` = 16.32 WHERE `entry` = 162982; -- Risen Cultist, about 125k
-UPDATE `creature_template` SET `HealthModifier` = 5.73 WHERE `entry` = 162983; -- Risen Cultist, about 44k
+UPDATE `creature_template` SET `HealthModifier` = 16.211 WHERE `entry` = 162711; -- Muzah, the Shadow Hunter, about 120.0k
+UPDATE `creature_template` SET `HealthModifier` = 15.981 WHERE `entry` = 162715; -- Drak''math the Sinister King, about 94.6k
+UPDATE `creature_template` SET `HealthModifier` = 40.629 WHERE `entry` = 162716; -- Chimeric Embryo, about 124.0k
+UPDATE `creature_template` SET `HealthModifier` = 1.573 WHERE `entry` = 162743; -- Spider, about 4.8k
+UPDATE `creature_template` SET `HealthModifier` = 2.466 WHERE `entry` = 162765; -- Interstitial Wanderer, about 18.3k
+UPDATE `creature_template` SET `HealthModifier` = 1.414 WHERE `entry` = 162766; -- Bat of the Other Side, about 10.5k
+UPDATE `creature_template` SET `HealthModifier` = 1.414 WHERE `entry` = 162767; -- Bat of the Other Side, about 10.5k
+UPDATE `creature_template` SET `HealthModifier` = 2.235 WHERE `entry` = 162769; -- Deathweaver Matriarch, about 16.5k
+UPDATE `creature_template` SET `HealthModifier` = 0.995 WHERE `entry` = 162770; -- Spider of the Other Side, about 7.4k
+UPDATE `creature_template` SET `HealthModifier` = 6.088 WHERE `entry` = 162773; -- Gutdevourer, about 45.1k
+UPDATE `creature_template` SET `HealthModifier` = 2.285 WHERE `entry` = 162775; -- Gutdevourer, about 16.9k
+UPDATE `creature_template` SET `HealthModifier` = 2.444 WHERE `entry` = 162776; -- Interstitial Wanderer, about 18.1k
+UPDATE `creature_template` SET `HealthModifier` = 6.421 WHERE `entry` = 162780; -- Risen Cultist, about 38.0k
+UPDATE `creature_template` SET `HealthModifier` = 2.815 WHERE `entry` = 162782; -- Hisser of the Other Side, about 16.7k
+UPDATE `creature_template` SET `HealthModifier` = 3.088 WHERE `entry` = 162783; -- Interstitial Wanderer, about 18.3k
+UPDATE `creature_template` SET `HealthModifier` = 0.512 WHERE `entry` = 162784; -- Violent Swarm, about 3.8k
+UPDATE `creature_template` SET `HealthModifier` = 3.898 WHERE `entry` = 162785; -- Watcher of the Path, about 23.1k
+UPDATE `creature_template` SET `HealthModifier` = 0.824 WHERE `entry` = 162979; -- Lifedrinker, about 6.1k
+UPDATE `creature_template` SET `HealthModifier` = 0.939 WHERE `entry` = 162980; -- Lifedrinker, about 7.0k
+UPDATE `creature_template` SET `HealthModifier` = 0.597 WHERE `entry` = 162981; -- Lifedrinker, about 4.4k
+UPDATE `creature_template` SET `HealthModifier` = 7.799 WHERE `entry` = 162982; -- Risen Cultist, about 57.7k
+UPDATE `creature_template` SET `HealthModifier` = 2.523 WHERE `entry` = 162983; -- Risen Cultist, about 18.7k
+UPDATE `creature_template` SET `HealthModifier` = 8.974 WHERE `entry` = 162988; -- Volâ€™zeen, about 66.4k
+
+DELETE FROM `coa_dungeon_health` WHERE `map_id` = 937;
+INSERT INTO `coa_dungeon_health` (`map_id`, `difficulty`, `creature_entry`, `max_health`, `evidence`, `source`) VALUES
+(937, 1, 162711, 337368, 'log', 'Heroic from Mythic /1.3; Muzah, the Shadow Hunter'),
+(937, 2, 162711, 438578, 'log', 'half the Mythic combat log 2026-08-05 (877155); Muzah, the Shadow Hunter'),
+(937, 1, 162715, 332571, 'log', 'Heroic from Mythic /1.3; Drak''math the Sinister King'),
+(937, 2, 162715, 432342, 'log', 'half the Mythic combat log 2026-08-05 (864685); Drak''math the Sinister King'),
+(937, 1, 162716, 342868, 'log', 'Heroic from Mythic /1.3; Chimeric Embryo'),
+(937, 2, 162716, 445728, 'log', 'half the Mythic combat log 2026-08-05 (891455); Chimeric Embryo'),
+(937, 1, 162743, 33319, 'log', 'Heroic from Mythic /1.3; Spider'),
+(937, 2, 162743, 43315, 'log', 'half the Mythic combat log 2026-08-05 (86630); Spider'),
+(937, 1, 162765, 75030, 'log', 'Heroic from Mythic /1.3; Interstitial Wanderer'),
+(937, 2, 162765, 97539, 'log', 'half the Mythic combat log 2026-08-05 (195078); Interstitial Wanderer'),
+(937, 1, 162766, 42308, 'model', 'Heroic from Mythic /1.3; Bat of the Other Side'),
+(937, 2, 162766, 55000, 'model', 'in-game estimate (2026-10-23); Bat of the Other Side'),
+(937, 1, 162767, 42308, 'model', 'Heroic from Mythic /1.3; Bat of the Other Side'),
+(937, 2, 162767, 55000, 'model', 'in-game estimate (2026-10-23); Bat of the Other Side'),
+(937, 1, 162769, 75037, 'log', 'Heroic from Mythic /1.3; Deathweaver Matriarch'),
+(937, 2, 162769, 97548, 'log', 'half the Mythic combat log 2026-08-05 (195097); Deathweaver Matriarch'),
+(937, 1, 162770, 28088, 'log', 'Heroic from Mythic /1.3; Spider of the Other Side'),
+(937, 2, 162770, 36515, 'log', 'half the Mythic combat log 2026-08-05 (73030); Spider of the Other Side'),
+(937, 1, 162773, 213659, 'log', 'Heroic from Mythic /1.3; Gutdevourer'),
+(937, 2, 162773, 277757, 'log', 'half the Mythic combat log 2026-08-05 (555514); Gutdevourer'),
+(937, 1, 162775, 75020, 'log', 'Heroic from Mythic /1.3; Gutdevourer'),
+(937, 2, 162775, 97526, 'log', 'half the Mythic combat log 2026-08-05 (195053); Gutdevourer'),
+(937, 1, 162776, 75026, 'log', 'Heroic from Mythic /1.3; Interstitial Wanderer'),
+(937, 2, 162776, 97534, 'log', 'half the Mythic combat log 2026-08-05 (195069); Interstitial Wanderer'),
+(937, 1, 162780, 213660, 'log', 'Heroic from Mythic /1.3; Risen Cultist'),
+(937, 2, 162780, 277758, 'log', 'half the Mythic combat log 2026-08-05 (555515); Risen Cultist'),
+(937, 1, 162782, 75032, 'log', 'Heroic from Mythic /1.3; Hisser of the Other Side'),
+(937, 2, 162782, 97541, 'log', 'half the Mythic combat log 2026-08-05 (195082); Hisser of the Other Side'),
+(937, 1, 162783, 75023, 'log', 'Heroic from Mythic /1.3; Interstitial Wanderer'),
+(937, 2, 162783, 97530, 'log', 'half the Mythic combat log 2026-08-05 (195060); Interstitial Wanderer'),
+(937, 1, 162784, 28088, 'log', 'Heroic from Mythic /1.3; Violent Swarm'),
+(937, 2, 162784, 36515, 'log', 'half the Mythic combat log 2026-08-05 (73030); Violent Swarm'),
+(937, 1, 162785, 101284, 'log', 'Heroic from Mythic /1.3; Watcher of the Path'),
+(937, 2, 162785, 131669, 'log', 'half the Mythic combat log 2026-08-05 (263338); Watcher of the Path'),
+(937, 1, 162979, 28088, 'log', 'Heroic from Mythic /1.3; Lifedrinker'),
+(937, 2, 162979, 36515, 'log', 'half the Mythic combat log 2026-08-05 (73030); Lifedrinker'),
+(937, 1, 162980, 28088, 'log', 'Heroic from Mythic /1.3; Lifedrinker'),
+(937, 2, 162980, 36515, 'log', 'half the Mythic combat log 2026-08-05 (73030); Lifedrinker'),
+(937, 1, 162981, 18742, 'log', 'Heroic from Mythic /1.3; Lifedrinker'),
+(937, 2, 162981, 24365, 'log', 'half the Mythic combat log 2026-08-05 (48730); Lifedrinker'),
+(937, 1, 162982, 213660, 'log', 'Heroic from Mythic /1.3; Risen Cultist'),
+(937, 2, 162982, 277758, 'log', 'half the Mythic combat log 2026-08-05 (555515); Risen Cultist'),
+(937, 1, 162983, 75029, 'log', 'Heroic from Mythic /1.3; Risen Cultist'),
+(937, 2, 162983, 97538, 'log', 'half the Mythic combat log 2026-08-05 (195075); Risen Cultist'),
+(937, 1, 162988, 262494, 'log', 'Heroic from Mythic /1.3; Volâ€™zeen'),
+(937, 2, 162988, 341242, 'log', 'half the Mythic combat log 2026-08-05 (682485); Volâ€™zeen');
