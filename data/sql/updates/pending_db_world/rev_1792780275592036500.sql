@@ -33,34 +33,33 @@ DELETE FROM `areatrigger_teleport` WHERE `ID` = 8005;
 INSERT INTO `areatrigger_teleport` (`ID`, `Name`, `target_map`, `target_position_x`, `target_position_y`, `target_position_z`, `target_orientation`) VALUES
 (8005, 'Road to De Other Side - Sinister Lair', 1, -198.149, -4182.969, 56.760, 6.27215);
 
--- Road to De Other Side (map 937): health. Normal at level 60 from the 2026-08-24 Normal log, a level-60 run
--- (Muzah's 35k at level 25 and 88.6k at 50 carried to 60 give the same 120k). Spawned creatures take the
--- dungeon multiplier of 2.5 (CoA.CreatureScaling), summons do not. Mythic is set to half the 2026-08-05 Mythic
--- log for now and gets tuned on feedback; Heroic is Mythic / 1.3.
+-- Road to De Other Side (map 937): health. Mythic is set to half the 2026-08-05 Mythic log for now and gets
+-- tuned on feedback; Heroic is Mythic / 1.3 and Normal at level 60 is Heroic / 2.33, the core's Normal-to-Heroic
+-- factor. Spawned creatures take the dungeon multiplier of 2.5 (CoA.CreatureScaling), summons do not.
 
-UPDATE `creature_template` SET `HealthModifier` = 16.211 WHERE `entry` = 162711; -- Muzah, the Shadow Hunter, about 120.0k
-UPDATE `creature_template` SET `HealthModifier` = 15.981 WHERE `entry` = 162715; -- Drak''math the Sinister King, about 94.6k
-UPDATE `creature_template` SET `HealthModifier` = 40.629 WHERE `entry` = 162716; -- Chimeric Embryo, about 124.0k
-UPDATE `creature_template` SET `HealthModifier` = 1.573 WHERE `entry` = 162743; -- Spider, about 4.8k
-UPDATE `creature_template` SET `HealthModifier` = 2.466 WHERE `entry` = 162765; -- Interstitial Wanderer, about 18.3k
-UPDATE `creature_template` SET `HealthModifier` = 1.414 WHERE `entry` = 162766; -- Bat of the Other Side, about 10.5k
-UPDATE `creature_template` SET `HealthModifier` = 1.414 WHERE `entry` = 162767; -- Bat of the Other Side, about 10.5k
-UPDATE `creature_template` SET `HealthModifier` = 2.235 WHERE `entry` = 162769; -- Deathweaver Matriarch, about 16.5k
-UPDATE `creature_template` SET `HealthModifier` = 0.995 WHERE `entry` = 162770; -- Spider of the Other Side, about 7.4k
-UPDATE `creature_template` SET `HealthModifier` = 6.088 WHERE `entry` = 162773; -- Gutdevourer, about 45.1k
-UPDATE `creature_template` SET `HealthModifier` = 2.285 WHERE `entry` = 162775; -- Gutdevourer, about 16.9k
-UPDATE `creature_template` SET `HealthModifier` = 2.444 WHERE `entry` = 162776; -- Interstitial Wanderer, about 18.1k
-UPDATE `creature_template` SET `HealthModifier` = 6.421 WHERE `entry` = 162780; -- Risen Cultist, about 38.0k
-UPDATE `creature_template` SET `HealthModifier` = 2.815 WHERE `entry` = 162782; -- Hisser of the Other Side, about 16.7k
-UPDATE `creature_template` SET `HealthModifier` = 3.088 WHERE `entry` = 162783; -- Interstitial Wanderer, about 18.3k
-UPDATE `creature_template` SET `HealthModifier` = 0.512 WHERE `entry` = 162784; -- Violent Swarm, about 3.8k
-UPDATE `creature_template` SET `HealthModifier` = 3.898 WHERE `entry` = 162785; -- Watcher of the Path, about 23.1k
-UPDATE `creature_template` SET `HealthModifier` = 0.824 WHERE `entry` = 162979; -- Lifedrinker, about 6.1k
-UPDATE `creature_template` SET `HealthModifier` = 0.939 WHERE `entry` = 162980; -- Lifedrinker, about 7.0k
-UPDATE `creature_template` SET `HealthModifier` = 0.597 WHERE `entry` = 162981; -- Lifedrinker, about 4.4k
-UPDATE `creature_template` SET `HealthModifier` = 7.799 WHERE `entry` = 162982; -- Risen Cultist, about 57.7k
-UPDATE `creature_template` SET `HealthModifier` = 2.523 WHERE `entry` = 162983; -- Risen Cultist, about 18.7k
-UPDATE `creature_template` SET `HealthModifier` = 8.974 WHERE `entry` = 162988; -- Volâ€™zeen, about 66.4k
+UPDATE `creature_template` SET `HealthModifier` = 19.560 WHERE `entry` = 162711; -- Muzah, the Shadow Hunter, about 144.8k
+UPDATE `creature_template` SET `HealthModifier` = 24.100 WHERE `entry` = 162715; -- Drak'math the Sinister King, about 142.7k
+UPDATE `creature_template` SET `HealthModifier` = 48.215 WHERE `entry` = 162716; -- Chimeric Embryo, about 147.2k
+UPDATE `creature_template` SET `HealthModifier` = 4.685 WHERE `entry` = 162743; -- Spider, about 14.3k
+UPDATE `creature_template` SET `HealthModifier` = 4.350 WHERE `entry` = 162765; -- Interstitial Wanderer, about 32.2k
+UPDATE `creature_template` SET `HealthModifier` = 2.453 WHERE `entry` = 162766; -- Bat of the Other Side, about 18.2k
+UPDATE `creature_template` SET `HealthModifier` = 2.453 WHERE `entry` = 162767; -- Bat of the Other Side, about 18.2k
+UPDATE `creature_template` SET `HealthModifier` = 4.351 WHERE `entry` = 162769; -- Deathweaver Matriarch, about 32.2k
+UPDATE `creature_template` SET `HealthModifier` = 1.629 WHERE `entry` = 162770; -- Spider of the Other Side, about 12.1k
+UPDATE `creature_template` SET `HealthModifier` = 12.388 WHERE `entry` = 162773; -- Gutdevourer, about 91.7k
+UPDATE `creature_template` SET `HealthModifier` = 4.350 WHERE `entry` = 162775; -- Gutdevourer, about 32.2k
+UPDATE `creature_template` SET `HealthModifier` = 4.350 WHERE `entry` = 162776; -- Interstitial Wanderer, about 32.2k
+UPDATE `creature_template` SET `HealthModifier` = 15.483 WHERE `entry` = 162780; -- Risen Cultist, about 91.7k
+UPDATE `creature_template` SET `HealthModifier` = 5.437 WHERE `entry` = 162782; -- Hisser of the Other Side, about 32.2k
+UPDATE `creature_template` SET `HealthModifier` = 5.437 WHERE `entry` = 162783; -- Interstitial Wanderer, about 32.2k
+UPDATE `creature_template` SET `HealthModifier` = 1.629 WHERE `entry` = 162784; -- Violent Swarm, about 12.1k
+UPDATE `creature_template` SET `HealthModifier` = 7.340 WHERE `entry` = 162785; -- Watcher of the Path, about 43.5k
+UPDATE `creature_template` SET `HealthModifier` = 1.629 WHERE `entry` = 162979; -- Lifedrinker, about 12.1k
+UPDATE `creature_template` SET `HealthModifier` = 1.629 WHERE `entry` = 162980; -- Lifedrinker, about 12.1k
+UPDATE `creature_template` SET `HealthModifier` = 1.087 WHERE `entry` = 162981; -- Lifedrinker, about 8.0k
+UPDATE `creature_template` SET `HealthModifier` = 12.388 WHERE `entry` = 162982; -- Risen Cultist, about 91.7k
+UPDATE `creature_template` SET `HealthModifier` = 4.350 WHERE `entry` = 162983; -- Risen Cultist, about 32.2k
+UPDATE `creature_template` SET `HealthModifier` = 15.219 WHERE `entry` = 162988; -- Vol’zeen, about 112.7k
 
 DELETE FROM `coa_dungeon_health` WHERE `map_id` = 937;
 INSERT INTO `coa_dungeon_health` (`map_id`, `difficulty`, `creature_entry`, `max_health`, `evidence`, `source`) VALUES
@@ -108,5 +107,5 @@ INSERT INTO `coa_dungeon_health` (`map_id`, `difficulty`, `creature_entry`, `max
 (937, 2, 162982, 277758, 'log', 'half the Mythic combat log 2026-08-05 (555515); Risen Cultist'),
 (937, 1, 162983, 75029, 'log', 'Heroic from Mythic /1.3; Risen Cultist'),
 (937, 2, 162983, 97538, 'log', 'half the Mythic combat log 2026-08-05 (195075); Risen Cultist'),
-(937, 1, 162988, 262494, 'log', 'Heroic from Mythic /1.3; Volâ€™zeen'),
-(937, 2, 162988, 341242, 'log', 'half the Mythic combat log 2026-08-05 (682485); Volâ€™zeen');
+(937, 1, 162988, 262494, 'log', 'Heroic from Mythic /1.3; Vol’zeen'),
+(937, 2, 162988, 341242, 'log', 'half the Mythic combat log 2026-08-05 (682485); Vol’zeen');
