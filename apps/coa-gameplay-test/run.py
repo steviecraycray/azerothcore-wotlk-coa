@@ -247,7 +247,7 @@ ACTIONS = {
     'grant_resource': ({'actor', 'spell'}, {'actor', 'spell', 'amount'}),
     'unlearn': ({'actor', 'spell'}, {'actor', 'spell', 'all_specs'}),
     'money': ({'actor', 'copper'}, {'actor', 'copper'}),
-    'set_aura': ({'actor', 'spell', 'stacks'}, {'actor', 'spell', 'stacks', 'pet', 'owned_entry'}),
+    'set_aura': ({'actor', 'spell', 'stacks'}, {'actor', 'spell', 'stacks', 'pet', 'owned_entry', 'target'}),
     'cancel_aura': ({'actor', 'spell'}, {'actor', 'spell'}),
     'cancel_mount': ({'actor'}, {'actor'}),
     'cast': ({'actor', 'spell'}, {'actor', 'spell', 'target', 'destination', 'target_pet', 'target_item',
@@ -666,6 +666,10 @@ def validate(scenario):
             require(step['actor'] in player_ids, f'{where}: owned creature fixture needs a player')
             require(not step.get('pet', False), f'{where}: select either a pet or an owned creature')
             number(step['owned_entry'], f'{where}.owned_entry', 1, 2**32 - 1, True)
+        if action == 'set_aura' and 'target' in step:
+            require(step['target'] in actor_ids, f'{where}: unknown target')
+            require(not step.get('pet', False) and 'owned_entry' not in step,
+                    f'{where}: select one of target, pet and owned creature')
         if action in {'pvp', 'set_moving'}:
             require(type(step['enabled']) is bool, f'{where}: enabled must be boolean')
         if action == 'set_moving' and 'flag' in step:

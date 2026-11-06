@@ -7113,6 +7113,8 @@ private:
                 recipient = player->GetGuardianPet();
             if (auto entry = step.get_optional<uint32>("owned_entry"))
                 recipient = GetOwnedCreature(player, *entry);
+            if (auto target = step.get_optional<std::string>("target"))
+                recipient = GetUnit(*target);
             Require(recipient != nullptr, "Aura fixture requires its selected player, pet or owned creature");
             SpellInfo const* info = sSpellMgr->GetSpellInfo(spell);
             Require(info != nullptr, "Unknown fixture aura");
