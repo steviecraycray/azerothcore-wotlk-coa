@@ -1,0 +1,196 @@
+{
+  "schema": 1,
+  "name": "Scholomance: Jandice Barov banishes the damage dealer, never the tank (#11450)",
+  "contract": [
+    "Jandice Barov 10503 is a Scholomance (map 289, expansion 0) encounter boss. Her Ascension kit casts Banish 8994",
+    "at a random player (event 9011, first after 10-12 s, then every 25-27 s). #11450: she banished the tank. Banish now",
+    "follows the vanilla dungeon boss control rule (BossControlTargeting): a tank or healer specialization is never its",
+    "target. Vanguard 21 tanks and Boltslinger 10 deals damage; the tank engages first and holds threat, the damage",
+    "dealer is on the threat list. The players are level 60 humans with health fixtures; the boss is summoned at its",
+    "own stats in the group's instance."
+  ],
+  "timeout_ms": 150000,
+  "location": {
+    "map": 0,
+    "x": -8914,
+    "y": -133,
+    "z": 80.6
+  },
+  "players": [
+    {
+      "id": "tank",
+      "race": 1,
+      "class": 18,
+      "level": 60,
+      "allow_regeneration": false
+    },
+    {
+      "id": "dps",
+      "race": 1,
+      "class": 15,
+      "level": 60,
+      "allow_regeneration": false
+    }
+  ],
+  "steps": [
+    {
+      "action": "wait",
+      "label": "Let the characters finish logging in",
+      "ms": 3000
+    },
+    {
+      "action": "group",
+      "label": "dps joins tank's group",
+      "actor": "tank",
+      "target": "dps"
+    },
+    {
+      "action": "specialization",
+      "label": "tank takes specialization 21",
+      "actor": "tank",
+      "id": 21
+    },
+    {
+      "action": "specialization",
+      "label": "dps takes specialization 10",
+      "actor": "dps",
+      "id": 10
+    },
+    {
+      "action": "teleport",
+      "label": "tank enters the dungeon",
+      "actor": "tank",
+      "map": 289,
+      "x": 175.3,
+      "y": -91.0,
+      "z": 70.86,
+      "o": 0
+    },
+    {
+      "action": "assert",
+      "label": "CONTROL: tank is inside the dungeon",
+      "actor": "tank",
+      "metric": "map_id",
+      "equals": 289,
+      "within_ms": 10000
+    },
+    {
+      "action": "teleport",
+      "label": "dps enters the dungeon",
+      "actor": "dps",
+      "map": 289,
+      "x": 175.3,
+      "y": -91.0,
+      "z": 70.86,
+      "o": 0
+    },
+    {
+      "action": "assert",
+      "label": "CONTROL: dps is inside the dungeon",
+      "actor": "dps",
+      "metric": "map_id",
+      "equals": 289,
+      "within_ms": 10000
+    },
+    {
+      "action": "wait",
+      "ms": 1500
+    },
+    {
+      "action": "set_health",
+      "actor": "tank",
+      "value": 100000000,
+      "maximum": 100000000
+    },
+    {
+      "action": "set_health",
+      "actor": "dps",
+      "value": 100000000,
+      "maximum": 100000000
+    },
+    {
+      "action": "summon",
+      "label": "Summon the boss in the group's instance",
+      "actor": "tank",
+      "entry": 10503,
+      "as": "jandice",
+      "distance": 3
+    },
+    {
+      "action": "wait",
+      "label": "Let the boss's spawn events settle",
+      "ms": 3000
+    },
+    {
+      "action": "encounter_start",
+      "actor": "tank",
+      "boss_entry": 10503,
+      "radius": 20
+    },
+    {
+      "action": "attack",
+      "label": "The tank engages first and keeps top threat",
+      "actor": "tank",
+      "target": "jandice"
+    },
+    {
+      "action": "assert",
+      "label": "CONTROL: Jandice Barov is in combat",
+      "actor": "jandice",
+      "metric": "combat",
+      "equals": 1,
+      "within_ms": 10000
+    },
+    {
+      "action": "wait",
+      "label": "The tank builds a threat lead",
+      "ms": 3000
+    },
+    {
+      "action": "attack",
+      "label": "dps joins the threat list",
+      "actor": "dps",
+      "target": "jandice"
+    },
+    {
+      "action": "wait",
+      "ms": 1500
+    },
+    {
+      "action": "stop_attack",
+      "actor": "dps"
+    },
+    {
+      "action": "assert",
+      "label": "Banish lands on the damage dealer",
+      "actor": "tank",
+      "metric": "timeline_count",
+      "event": "aura_applied",
+      "spell": 8994,
+      "source_entry": 10503,
+      "target_actors": [
+        "dps"
+      ],
+      "min": 1,
+      "within_ms": 40000
+    },
+    {
+      "action": "wait",
+      "label": "Run through another Banish window",
+      "ms": 27000
+    },
+    {
+      "action": "assert",
+      "label": "Banish never lands on the tank",
+      "actor": "tank",
+      "metric": "timeline_count",
+      "event": "aura_applied",
+      "spell": 8994,
+      "source_entry": 10503,
+      "exclude_target_actors": [
+        "dps"
+      ],
+      "equals": 0
+    }
+  ]
+}

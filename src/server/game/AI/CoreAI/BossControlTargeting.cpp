@@ -12,6 +12,9 @@ namespace
     // Hex of Jammal'an is a dummy timer; its removal casts the transform and the charm on the same player.
     constexpr uint32 SPELL_HEX_OF_JAMMAL_AN_TIMER = 12479;
 
+    // Jandice Barov's Banish leaves the tank alone (#11450).
+    constexpr uint32 SPELL_JANDICE_BANISH = 8994;
+
     // Zevrim Thornhoof's Sacrifice (and its Ascension kit version) teleports, stuns and drains its target.
     constexpr uint32 SPELL_ZEVRIM_SACRIFICE = 22651;
     constexpr uint32 SPELL_ZEVRIM_SACRIFICE_ASCENSION = 2100215;
@@ -40,6 +43,7 @@ bool BossControl::IsControlSpell(SpellInfo const* spellInfo)
     switch (spellInfo->Id)
     {
         case SPELL_HEX_OF_JAMMAL_AN_TIMER:
+        case SPELL_JANDICE_BANISH:
         case SPELL_ZEVRIM_SACRIFICE:
         case SPELL_ZEVRIM_SACRIFICE_ASCENSION:
         case SPELL_GANDLING_SHADOW_PORTAL:
