@@ -25,6 +25,11 @@ namespace
     // Lady Illucia Barov's Ascension kit Fear follows the same rule as her Dominate Mind.
     constexpr uint32 SPELL_ILLUCIA_FEAR_ASCENSION = 2100063;
 
+    // Stomper Kreeg's Ascension kit Polymorph and his Booze Spit (75% less chance to hit in a frontal cone) leave the
+    // tank alone (#11456).
+    constexpr uint32 SPELL_KREEG_POLYMORPH_ASCENSION = 2100019;
+    constexpr uint32 SPELL_KREEG_BOOZE_SPIT = 22833;
+
     // Doctor Theolen Krastinov's Ghoulish Potion picks a damage dealer, but its splash still reaches anyone near them.
     constexpr uint32 SPELL_KRASTINOV_GHOULISH_POTION = 92624;
 
@@ -45,6 +50,8 @@ bool BossControl::IsControlSpell(SpellInfo const* spellInfo)
         case SPELL_GANDLING_SHADOW_PORTAL:
         case SPELL_ERANIKUS_DEEP_SLUMBER:
         case SPELL_ILLUCIA_FEAR_ASCENSION:
+        case SPELL_KREEG_POLYMORPH_ASCENSION:
+        case SPELL_KREEG_BOOZE_SPIT:
             return true;
         default:
             break;
