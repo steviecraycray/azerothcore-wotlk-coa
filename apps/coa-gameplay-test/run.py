@@ -142,7 +142,7 @@ METRICS = TIMELINE_METRICS | EVENT_TIME_METRICS | {
     'nearby_gameobject_count', 'nearby_gameobject_quest_active', 'nearby_gameobject_state', 'nearby_gameobject_scale',
     'nearby_gameobject_flags', 'nearby_gameobject_quest',
     'nearby_gameobject_display', 'nearby_gameobject_ground_offset', 'nearby_gameobject_orientation',
-    'nearby_creature_count', 'nearest_creature_distance', 'nearby_creature_orientation', 'nearby_creature_height',
+    'nearby_creature_count', 'nearest_creature_distance', 'nearby_creature_orientation', 'nearby_creature_facing_offset', 'nearby_creature_height',
     'map_creature_count',
     'map_creatures_below_floor',
     'nearby_gameobject_at_client',
@@ -1100,9 +1100,12 @@ def validate(scenario, clock=REAL_CLOCK):
                             f'{where}.entries must be a non-empty list')
                     for index, entry in enumerate(step['entries']):
                         number(entry, f'{where}.entries[{index}]', 1, 2**32 - 1, True)
-            if metric in {'nearest_creature_distance', 'nearby_creature_orientation', 'nearby_creature_height'}:
+            if metric in {'nearest_creature_distance', 'nearby_creature_orientation', 'nearby_creature_height',
+                          'nearby_creature_facing_offset'}:
                 require(step['actor'] in player_ids, f'{where}: creature distance needs a player')
                 number(step.get('entry'), f'{where}.entry', 1, 2**32 - 1, True)
+            if metric == 'nearby_creature_facing_offset':
+                number(step.get('target_entry'), f'{where}.target_entry', 1, 2**32 - 1, True)
             if metric == 'nearby_creature_height':
                 require(step.get('target') in actor_ids, f'{where}: creature height needs the reference unit')
             if metric == 'map_creatures_below_floor':
